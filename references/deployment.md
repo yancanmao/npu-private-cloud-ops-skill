@@ -69,6 +69,7 @@
 - 复用 `12_resource_recovery.sh`。先以 `APPLY=false` 跑真实扫描并检查审计，再在用户已授权启用停止时设为 true；核对 CronJob 的 schedule、suspend、concurrencyPolicy，以及至少一次自动定时执行成功。
 - admin 豁免以 `EXEMPT_OWNERS` 和准确的 Coder owner 为准；同时查 Coder 原生 workspace TTL 和模板默认值，豁免回收任务不等于取消原生自动停止。CPU-only 是否排除、证据窗口和缺失数据处理均以当前版本策略为准。
 - 审计页应有持久化卷，不能挂 Coder 凭据；检查登录后可读、未登录被拒绝、非只读请求被拒绝。不要只检查 Service 或 Deployment 存在。
+- 另行检查用户实际导航：后台任务和直达 URL 正常，不代表当前工作区已有 Coder app 按钮。读取该工作区当前 build 的 apps；旧构建不能靠模板源码里有按钮来验收。优先补现有资源面板的可见入口并读回 Grafana 链接，不为增加按钮批量重建用户工作区。
 - 将回收任务验收与全平台健康检查分开：记录其他 Pod、卷和工作区的异常，不靠停止用户任务或删除历史对象让测试通过。扫描没有符合条件的工作区时，明确报告“没有实际执行停止”，不制造停止样本。
 
 ## 工作区 vLLM 与 Grafana 验收
