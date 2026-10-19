@@ -22,6 +22,8 @@
 | 9 | `09_gateway.sh` | TLS 网关和只读面板 |
 | 10 | `10_tools.sh` | `npu`、`reflavor`、`npc-reconcile` |
 | 11 | `11_registry.sh` | zot 镜像仓库 |
+| 12 | `12_resource_recovery.sh` | 定时闲置停止、凭据、持久化审计 |
+| 13 | `13_rdma.sh` | 经核实节点上的 RDMA device plugin |
 
 每步先执行 install，再执行脚本提供的 verify。不要把 `scripts/install.sh` 当成“跑完就一定正确”；
 最终以测试和用户路径为准。
@@ -60,3 +62,21 @@
 - Kubernetes、Longhorn、MindCluster 和 KubeRay 分别查官方兼容矩阵，不跨多个大版本同时升级；
 - 保留上一版 manifest、镜像 tag、模板版本和数据库/数据目录备份；
 - 一次只变更一个层，完成相关测试后再进入下一层。
+
+## 多集群与资源回收验收
+
+- 按仓库 `docs/platform-updates.md`、`config/platform/resource-policy.json` 和每集群私有 overlay 发布；逐集群记录源码版本、对象、凭据可用性、任务运行结果和回滚位置。不要把文档、渲染清单或单集群成功当成全量部署成功。
+- 复用 `12_resource_recovery.sh`。先以 `APPLY=false` 跑真实扫描并检查审计，再在用户已授权启用停止时设为 true；核对 CronJob 的 schedule、suspend、concurrencyPolicy，以及至少一次自动定时执行成功。
+- admin 豁免以 `EXEMPT_OWNERS` 和准确的 Coder owner 为准；同时查 Coder 原生 workspace TTL 和模板默认值，豁免回收任务不等于取消原生自动停止。CPU-only 是否排除、证据窗口和缺失数据处理均以当前版本策略为准。
+- 审计页应有持久化卷，不能挂 Coder 凭据；检查登录后可读、未登录被拒绝、非只读请求被拒绝。不要只检查 Service 或 Deployment 存在。
+- 将回收任务验收与全平台健康检查分开：记录其他 Pod、卷和工作区的异常，不靠停止用户任务或删除历史对象让测试通过。扫描没有符合条件的工作区时，明确报告“没有实际执行停止”，不制造停止样本。
+
+## 工作区 vLLM 与 Grafana 验收
+
+- `08_monitoring.sh vllm-discovery` 发现的是容器进程拥有的 HTTP 指标端点，并非所有 vLLM 进程。标准 `vllm serve` 的 `/metrics` 和直接调用 Python `LLM(...)` 是不同的接入路径；后者需应用自行导出。不在正在运行的他人实验里注入导出逻辑。
+- 核对自动发现 timer/service、Pod UID 归属的内部 Service、Prometheus 活跃配置和 targets，再经 Grafana datasource proxy 使用真实 workspace_id 查询业务指标。区分未发现端点、已登记但 DOWN、有端点但无业务样本、查询或变量错误；只加载 dashboard 不算有数据。
+- 遇到 loopback-only、HTTPS/鉴权或 `/proc` 权限不足，保留明确的未覆盖状态，不跨用户登记端口、不扩大容器权限；历史指标不能补采。实例选择和 workspace_id 筛选不构成权限隔离。
+- Prometheus 支持 SIGHUP 热加载；先备份、promtool 校验并确认 ConfigMap 已同步到挂载文件，再向经确认的 Prometheus 进程发信号，并读回活跃配置。`/-/reload` 要求启用 lifecycle。不要因该接口未开启就认定必须重建 Pod。
+- Grafana CPU/内存应区分 allocatable、requests、实际使用及逐节点余量；未包含 init 容器、Pod overhead 或队列预留的统计不得声称是调度器精确可用容量。
+
+官方依据：[vLLM 在线接口](https://docs.vllm.ai/en/latest/serving/online_serving/)、[Python LLM](https://docs.vllm.ai/en/latest/serving/offline_inference/)、[Prometheus 配置热加载](https://prometheus.io/docs/prometheus/latest/configuration/configuration/)。

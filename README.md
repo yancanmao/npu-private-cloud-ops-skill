@@ -42,6 +42,7 @@ bash scripts/collect-platform-snapshot.sh
 
 - `SKILL.md`：操作边界、诊断顺序和验收原则。
 - `references/deployment.md`：从零部署与升级入口。
+- 同一手册还覆盖逐集群发布、闲置回收与 admin 豁免、原生 TTL、vLLM 自动发现和 Grafana 数据验收；不把单集群或面板加载成功当成全平台验收。
 - `references/topology-and-sources.md`：组件拓扑、服务位置和权威配置。
 - `references/incident-response.md`：按症状定位故障。
 - `references/coder-and-ray.md`：Coder、KubeRay、Ray Dashboard 专项手册。

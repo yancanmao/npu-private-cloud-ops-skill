@@ -8,6 +8,8 @@
 bash scripts/collect-platform-snapshot.sh
 ```
 
+这里的相对路径以本 Skill 目录为根，不是平台实现仓库。
+
 证据包包含系统、Kubernetes、Coder、调度、存储、NPU、Ray 和最近事件。它可能含工作区
 名称和内部地址，只能私下传给维护者，不得提交到 Git。
 
@@ -32,6 +34,9 @@ bash scripts/collect-platform-snapshot.sh
 4. Pod 内访问 Coder `/healthz`；
 5. nginx 是否在 Pod 解析到的私网地址和回连端口监听；
 6. TLS 证书是否包含 `CODER_AGENT_URL` 的主机名。
+
+若 Pod 尚未分配节点，先诊断调度，不要把 Connecting 当成 Agent 网络故障。
+Coder 显示 Running 可能仅表示构建成功；回收审计中的 KEEP 也不证明 Pod 已运行或实际占卡。
 
 典型根因：公网入口位于前置网关，但 Pod 把同一域名解析到本机私网地址，而本机没有监听
 公网端口。表现为 Coder Agent 周期性下载失败，工作区业务容器和 Ray 本身却正常。
@@ -59,6 +64,10 @@ kubectl get deploy,pod,pvc -n coder-workspaces -o wide
 - unbound PersistentVolumeClaim：Longhorn、StorageClass、节点空间或副本问题。
 - ImagePullBackOff：镜像地址、containerd 命名空间、registry 认证或网络问题。
 - node affinity：模板机器选项与节点 `alias` 标签不一致。
+
+CPU-only 也要检查实际 PodGroup queue；若仍进入 NPU 队列，队列的已分配资源与排队预留可能
+挡住不申请卡的新任务。先核对该版本调度器算法和当前账本，不能只按空闲卡数解释。
+临时调整某个 PodGroup 不等于修好模板；保留 Pod/PodGroup UID 门禁，并单独记录重建后复发风险。
 
 ## Grafana 显示空闲卡为负数或与现场不符
 

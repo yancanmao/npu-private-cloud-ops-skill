@@ -11,7 +11,7 @@ description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Asce
 ## 选择操作模式
 
 1. **只读巡检或故障定位**：可直接执行。先运行
-   `scripts/collect-platform-snapshot.sh`，再缩小故障层。
+   本 Skill 附带的 [`scripts/collect-platform-snapshot.sh`](scripts/collect-platform-snapshot.sh)，再缩小故障层；该脚本不在平台实现仓库的 `scripts/` 中。
 2. **部署或升级**：先读 [references/deployment.md](references/deployment.md)，按平台仓库的
    编号脚本执行；每步运行 verify，再运行只读验收。
 3. **停止、重启、迁移或清理**：先列出精确对象、当前使用者、持久化数据、影响和回滚；
@@ -20,6 +20,7 @@ description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Asce
 
 需要平台拓扑和权威信息位置时读 [references/topology-and-sources.md](references/topology-and-sources.md)。
 需要按症状定位时读 [references/incident-response.md](references/incident-response.md)。
+涉及多集群同步、闲置回收或工作区指标接入时，读 [references/deployment.md](references/deployment.md) 的专项验收；一个集群通过不能代替其他集群发布。
 涉及 Coder、RayCluster 或 Ray Dashboard 时读 [references/coder-and-ray.md](references/coder-and-ray.md)。
 涉及变更、停止和清理时读 [references/change-and-recovery.md](references/change-and-recovery.md)。
 
