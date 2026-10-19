@@ -65,6 +65,8 @@
 
 ## 多集群与资源回收验收
 
+- “同步两个集群”包括正式模板、参数说明、Coder app 分组/按钮、模板 README、Grafana、网关、后台任务和工具，不能只补某个后台或临时入口。以同一 Git revision 配合每集群私有 profile 重放；优先完善仓库发布入口，避免把临时远程脚本当长期部署方式。
+- 已有集群的统一入口为仓库 `scripts/sync_platform.py plan|apply|verify`，配置示例为 `config/clusters/sync.example.json`。先读仓库的当前验收边界：模板暂存不等于激活、激活不等于已有 workspace build 已重建；状态与剩余差异必须分别记录。
 - 按仓库 `docs/platform-updates.md`、`config/platform/resource-policy.json` 和每集群私有 overlay 发布；逐集群记录源码版本、对象、凭据可用性、任务运行结果和回滚位置。不要把文档、渲染清单或单集群成功当成全量部署成功。
 - 复用 `12_resource_recovery.sh`。先以 `APPLY=false` 跑真实扫描并检查审计，再在用户已授权启用停止时设为 true；核对 CronJob 的 schedule、suspend、concurrencyPolicy，以及至少一次自动定时执行成功。
 - admin 豁免以 `EXEMPT_OWNERS` 和准确的 Coder owner 为准；同时查 Coder 原生 workspace TTL 和模板默认值，豁免回收任务不等于取消原生自动停止。CPU-only 是否排除、证据窗口和缺失数据处理均以当前版本策略为准。
