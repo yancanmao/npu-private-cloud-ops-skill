@@ -83,3 +83,17 @@
 - Grafana CPU/内存应区分 allocatable、requests、实际使用及逐节点余量；未包含 init 容器、Pod overhead 或队列预留的统计不得声称是调度器精确可用容量。
 
 官方依据：[vLLM 在线接口](https://docs.vllm.ai/en/latest/serving/online_serving/)、[Python LLM](https://docs.vllm.ai/en/latest/serving/offline_inference/)、[Prometheus 配置热加载](https://prometheus.io/docs/prometheus/latest/configuration/configuration/)。
+
+### 统一入口的前端激活
+
+- 后台 `sync_platform.py apply` 完成后，使用平台仓库 `scripts/verify_platform_frontend.py`
+  对暂存 devbox 做自有 0 卡验收，`--promote` 仅在 Agent 已连接、default 队列和真实按钮
+  URL 都通过后激活。不重建其他用户工作区。
+- 验收工作区停止并保留 PVC。需要重复验证新模板时，用记录中的自有 CPU 工作区
+  `--resume --update-version` 复用已分配卷；不得为通过测试删除用户卷、降低集群副本数或放宽容量阈值。
+- 共享上传目录是显式 `SHARED_UPLOAD_PATH`，必须在实际可调度节点存在；缺失则禁用该可选挂载，
+  不得把其他用户数据目录替代为可写挂载。部署 profile 中保留这项差异。
+- 公网入口和本机监听分离：profile 的 `gateway_environment` 可覆盖监听端口、证书名和独立的
+  Agent 回连入口。内部自签证书用已核实的 CA 文件显式信任，公网验收继续验证公网证书。
+- 部署机拉取私有实现仓库，使用每机独立、仅该仓库只读的 deploy key；私钥留在部署机，
+  官方 SSH host key 必须核实，不把个人写权限令牌复制到机器，不关闭 host key 验证。
