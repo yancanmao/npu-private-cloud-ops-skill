@@ -75,6 +75,11 @@ description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Asce
 
 ## 验收
 
+**每次平台更新均检查两平台的全部前端与可视化路径**，包括 Coder、Longhorn、全部 Grafana、
+模板表单、已有工作区和自有 CPU 工作区的终端/SSH/停启持久化。组件正常、HTTP 200、
+模板激活均不能单独证明交付。读 [完整验收与存储边界](references/storage-and-acceptance.md)，
+按实现仓库的必测清单与账本门禁执行；未通过项如实保留，不能省略入口换取通过。
+
 普通修复至少运行平台仓库中的相关组件测试；跨层变更运行：
 
 ```bash
