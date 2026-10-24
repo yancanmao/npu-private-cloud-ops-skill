@@ -151,3 +151,10 @@ Ray 会话目录；所有普通容器仍走原生定容运行时。只修改新�
   消失，再核对新 Pod、Agent Ready、两 Ray 节点、原持久卷 UID 和 Dashboard。
 - 普通 devbox 的创建、写满邻居对照、安装软件、SSH 和停启验证，与 Ray 的实际挂载、
   节点和 Dashboard 各自记录。截图和 API 返回必须对应加载完成的数据。
+
+
+巡检发现 NPU 超分或空 Service 时，先核对生命周期，不能删除旧对象来换绿：
+`tests/lib/workspace_health.py` 的账本忽略 Failed/Succeeded，保留已分配节点的 Pending；
+`tests/lib/service_health.py` 只识别所有者 UID、卷状态、共享管理器状态和零活动使用者
+全部吻合的闲置 RWX 服务，不能豁免活动服务。历史驱逐记录和发布前已存在的旧区
+Agent 异常必须单列，不能据此误称新模板失败，也不能反过来宣称全平台已无故障。
