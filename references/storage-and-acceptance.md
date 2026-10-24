@@ -77,6 +77,25 @@
 `actualSize=0`、Detached 或停止状态都不等于卷内没有数据；核对全部副本文件、
 快照、历史、使用者和保护 UID，不能仅凭面板零值重建卷。
 
+已停止且物理为空的家目录可以使用平台仓库 `migrate_empty_workspace_home.py` 单独回收
+申请额度，不能对已有文件系统执行缩容。先保存原模板、参数、卷和命名空间冻结值，
+逐 Longhorn manager 验证实际文件、已分配块数和快照链；未知、曾健康但缺文件、保护
+对象或活动挂载一律拒绝。维护模板 `allow_home_disk_resize=true` 只能用于停止状态，
+发布工具必须拒绝激活该版本。先收紧申请总额，再用 UID/resourceVersion 前置条件删除
+已证实为空的卷，创建同名小卷并恢复原模板、其他参数及 Coder 身份。逐个重新规划，
+每次比较保护对象。错误保存到准确阶段，先检查再恢复，不盲目重跑删除。
+
+计划比较应使用 JSON 往返后仍一致的数据类型；内存 tuple 与保存后的 list 比较曾导致
+安全检查误报漂移，实际未修改卷。测试必须覆盖真实保存/加载过程及真实变化的拒绝。
+释放申请额度不等于释放同量物理空间，也不代表根目录或共享上传迁移完成。
+
+Longhorn 原生 RWX 可以提供有容量上限的共享写入后端，但必须保留共享语义、逐池预算、
+真实数据校验和已有客户端迁移。`verify_shared_upload_capacity.py` 只验证自有临时卷：
+两节点互见写入、共享卷写满、独立卷持续可写、删除填充后恢复；不能代替生产迁移。
+创建 PVC 探针前检查 StorageClass 的 `volumeBindingMode`；`WaitForFirstConsumer`
+必须经调度器绑定，使用精确节点 `nodeSelector`，不要使用绕过调度的 `nodeName`。
+对应[官方说明](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode)。
+
 ## 每次更新的交付步骤
 
 - 同一个完整 Git revision 发布到两平台，profile 只包含真实差异；先检查工作树和身份。
