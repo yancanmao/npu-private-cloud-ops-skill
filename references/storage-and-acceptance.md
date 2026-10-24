@@ -162,6 +162,12 @@ Agent 异常必须单列，不能据此误称新模板失败，也不能反过�
 工作区专用执行环境不能只检查 PVC：额外 Docker sidecar、socket、客户端和启动命令
 也必须记录在可重建的模板版本中。恢复前保存原版本和启停记录；禁止用宿主机 Docker
 socket 替代专用 daemon，禁止清空旧 Docker 数据目录。专用模板版本不全局激活。
+这里的“专用版本”指事故临时恢复版本。正式支持来自实现仓库
+`config/workspaces/docker-executors.json`、`templates/devbox/docker-executor*.tf`
+和 `scripts/workspace_docker.py`；按已核实集群 UID、工作区 UUID 和原 PVC UID 渲染，
+普通工作区不增加特权容器。使用 `07_coder.sh render/push` 或 `sync_platform.py`，
+不能只复制 main.tf；缺少执行器文件应拒绝发布。镜像必须在私有仓库按摘要可拉取，
+不能把机器缓存当作部署制品。声明保留旧运行时的 CPU 执行工作区不自动迁移运行时。
 从主容器运行一个实际任务容器，再经授权 stop/start，核对新 Pod、原 PVC、旧镜像、
 Agent 连接和任务容器执行。检查 autostop/deadline，不能把自动停止误认成手动回收。
 共用 admin 账号的 initiator 字段不能单独识别操作者。参见实现仓库 docs/storage.md
