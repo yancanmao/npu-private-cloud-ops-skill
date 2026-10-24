@@ -16,6 +16,8 @@
 4. 为新模板配置数据源、镜像前缀和明确的 HTTP/HTTPS 策略。`SWE_BENCH_PRO_DATASET_BASE`、`SWE_BENCH_PRO_IMAGE_MIRROR`、`SWE_BENCH_PRO_IMAGE_REGISTRY_INSECURE` 由管理员提供，使用者只填模型 API、模型名和自己的运行目录。
 5. 通过平台私有 profile 的 `swe_bench_pro` 声明纳入 `sync_platform.py`，按仓库文档重放。同一功能按两平台实际状态对账，不能把一边的镜像缓存当另一边已交付。
 
+zot 默认不接收 Docker Schema 2 清单。固定摘要镜像返回 415 时，先核对媒体类型与运行版本，按官方 `http.compat: ["docker2s2"]` 配置处理，不能擅自转换清单又声称摘要相同。使用平台仓库的 `configure_registry_compat.py`：验证集群、备份配置、用实际运行二进制验证、只改兼容字段，再检查匿名读取与拒绝匿名推送。慢链路超过 registry 请求时限时在 registry 节点本机上传已校验 OCI 制品，避免反复重传大层。
+
 ## 验收必须从全新工作区开始
 
 - 新 Coder workspace UUID、新 PVC UID、初始 Docker image 数量、CPU/零 NPU 请求均留证。空客户端环境通过安装入口建立；不能指向以前手工搭好的工作区、客户端或已准备输入。
