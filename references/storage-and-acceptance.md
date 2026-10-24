@@ -4,6 +4,18 @@
 `docs/storage.md`、`docs/platform-updates.md`、`config/platform/frontend-surfaces.json` 为准，
 本 skill 不复制部署实现。真实集群身份、用户保护清单与原始证据放私有目录。
 
+## 先固定本次范围
+
+发布前按用户最新选择区分“仅新建工作区”与“迁移已有工作区”。用户选择只改新建时，
+模板激活不触发旧工作区 update，不为补齐历史迁移清单擅自重建旧工作区。
+共享目录若被明确指定为模型目录、接受监控和人工清理而不设硬额度，应保留原有挂载与
+读写方式，将其物理盘写满风险列为边界；不要继续强制个人上传替代或共享目录迁移。
+此项是有明确产品选择时的范围规则，不是任意共享可写数据默认可不受限。
+
+当前实现支持将 `BOUNDED_RUNTIME_CLASS` 与 `ISOLATED_WORKSPACE_UPLOAD=false` 分开，
+但仍要求工作区专用管理文件保护。新建 devbox 和 Ray 模板都要验收；Ray 的个人目录、
+会话目录不能继续指向无额度的宿主机个人目录。不得把一种模板通过当作另一种也通过。
+
 ## 存储判断顺序
 
 1. 对容器 `/root`、普通目录、`/data` 模型/上传及临时目录逐路径追踪：容器挂载 →
@@ -17,7 +29,7 @@
 5. A 写满时 B 要持续写入；测试跨目录累计、inode、删除仍打开文件、安装软件以及 root
    更改 project ID/继承属性。曾实测不防该绕过时，32 MiB 限额可写入 40 MiB。
    最小 ioctl 测试规则不能替代生产 RuntimeDefault；须合并既有规则并测 Ascend/RDMA。
-6. 可写共享上传保留可写，在实际服务端设置边界；共享 root 身份不能凭目录名实现安全的
+6. 除上述明确接受不设硬额度的模型目录外，可写共享上传保留可写，在实际服务端设置边界；共享 root 身份不能凭目录名实现安全的
    每用户隔离。未知归属、保护对象、活动任务不动；用稳定 UID 识别，避免同名跨集群误操作。
    对已有工作区读取实际 `mountinfo`，逐个核对 `/data` 子挂载；父挂载 `ro` 不代表
    子挂载只读。新的原生存储 bind mount 也可能传播进现有工作区，安装时必须验证并
@@ -123,3 +135,19 @@ Longhorn 原生 RWX 可以提供有容量上限的共享写入后端，但必须
 [tune2fs](https://man7.org/linux/man-pages/man8/tune2fs.8.html)、
 [containerd EROFS 配额](https://github.com/containerd/containerd/blob/v2.2.1/docs/snapshotters/erofs.md#quota-support)、
 [containerd blockfile](https://github.com/containerd/containerd/blob/v2.2.1/docs/snapshotters/blockfile.md)。
+
+
+## Ray 新建工作区的发布检查
+
+使用同一工作区独立的定容 RWX 卷保存 `/workspace/home`、`/root` 和按 Pod 分开的
+Ray 会话目录；所有普通容器仍走原生定容运行时。只修改新模板，不搬旧宿主机目录。
+`storage_validation_cpu_only=true` 只用于自有 CPU 存储验收，正式模板必须为 false。
+此验收不证明 NPU 模型性能或跨机通信带宽。
+
+- AppArmor 注解只能引用该 Pod 实际存在的容器；head 与 worker 的容器集合不同。
+  错写不存在的容器名会由 Kubernetes 拒绝创建 Pod，必须读 RayCluster 事件定位。
+- Ray head 模板更新不等于既有 head Pod 已滚动更新。Coder 新 Agent 已生成而 Pod
+  仍旧时，页面可能 Running 但 Agent timeout。自有验收完整 stop/start，等旧 Pod
+  消失，再核对新 Pod、Agent Ready、两 Ray 节点、原持久卷 UID 和 Dashboard。
+- 普通 devbox 的创建、写满邻居对照、安装软件、SSH 和停启验证，与 Ray 的实际挂载、
+  节点和 Dashboard 各自记录。截图和 API 返回必须对应加载完成的数据。
