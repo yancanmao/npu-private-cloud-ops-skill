@@ -45,6 +45,7 @@ bash scripts/collect-platform-snapshot.sh
 - 同一手册还覆盖逐集群发布、闲置回收与 admin 豁免、原生 TTL、vLLM 自动发现和 Grafana 数据验收；不把单集群或面板加载成功当成全平台验收。
 - `references/topology-and-sources.md`：组件拓扑、服务位置和权威配置。
 - `references/incident-response.md`：按症状定位故障。
+- `references/diagnostic-report.md`：问题定位报告、证据与因果分析、修复验收和短版汇报规范；默认直接在聊天输出。
 - `references/coder-and-ray.md`：Coder、KubeRay、Ray Dashboard 专项手册。
 - `references/change-and-recovery.md`：安全变更、回滚和清理。
 - `scripts/collect-platform-snapshot.sh`：只读证据采集脚本。
