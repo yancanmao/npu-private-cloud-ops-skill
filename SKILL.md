@@ -1,6 +1,6 @@
 ---
 name: npu-private-cloud-ops
-description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Ascend NPU 私有云，包括 Coder、Kubernetes、Volcano、Longhorn、KubeRay、Ray Dashboard、Prometheus、Grafana、zot 镜像仓库和 nginx 网关。适用于平台安装、工作区或 Ray 集群异常、资源占用不一致、端口网络故障、存储故障、升级和安全清理；不用于修改训练或推理应用本身。
+description: 面向平台维护者，部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Ascend NPU 私有云，包括 Coder、Kubernetes、Volcano、Longhorn、KubeRay、监控、镜像仓库和网关。用于平台故障、安装、发布、存储恢复和策略维护；普通用户登录、SSH、工作区使用与面板教学优先使用 coder-platform-user，不用于修改训练或推理应用本身。
 ---
 
 # NPU 私有云运维
@@ -8,10 +8,20 @@ description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Asce
 恢复服务并留下可复核证据。不要靠重启掩盖问题。所有结论必须来自命令输出、事件、日志或
 [`npu-private-cloud`](https://github.com/yancanmao/npu-private-cloud) 的声明式配置。
 
+## 先区分用户操作与平台运维
+
+解释组件、登录、本人工作区启停、SSH、只读面板和已发布应用部署，优先使用平台仓库中的
+[coder-platform-user](https://github.com/yancanmao/npu-private-cloud/tree/main/skills/coder-platform-user)。
+该 skill 不需要管理员凭据。不要因 ops 工具可用就把普通用户请求升级成集群操作。
+涉及集群故障、模板发布、共享存储、网关、策略或跨平台一致性时才进入下列运维流程；
+先读 [用户支持与管理员接手](references/user-support-and-handoff.md)，保留用户的原始目标和当前权限边界。
+
 ## 选择操作模式
 
-1. **只读巡检或故障定位**：可直接执行。先运行
-   本 Skill 附带的 [`scripts/collect-platform-snapshot.sh`](scripts/collect-platform-snapshot.sh)，再缩小故障层；该脚本不在平台实现仓库的 `scripts/` 中。
+1. **只读巡检或故障定位**：可直接执行。先读已有报告，核对平台、当前身份、对象和时间，
+   从相关失败路径取证；跨层或原因不明时使用
+   [`scripts/collect-platform-snapshot.sh`](scripts/collect-platform-snapshot.sh) 保存现场。
+   它属于本 Skill，不在平台实现仓库 `scripts/`；不能为收集现场向普通用户索要管理员凭据。
 2. **部署或升级**：先读 [references/deployment.md](references/deployment.md)，按平台仓库的
    编号脚本执行；每步运行 verify，再运行只读验收。
 3. **停止、重启、迁移或清理**：先列出精确对象、当前使用者、持久化数据、影响和回滚；
@@ -25,9 +35,10 @@ description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Asce
 涉及 SWE-bench Pro 安装、其他人复用或新 CPU 执行工作区时，先读 [references/swe-bench-pro.md](references/swe-bench-pro.md)，区分模型服务、旧工作区恢复与新用户部署验收。
 涉及变更、停止和清理时读 [references/change-and-recovery.md](references/change-and-recovery.md)。
 
-## 固定诊断顺序
+## 按实际失败路径诊断
 
-按用户请求经过的路径从外到内检查，发现第一个失败层后停止扩散操作：
+先分清构建、调度、容器、Agent、应用、指标和浏览器状态，不把所有问题强行从公网开始查。
+以下是故障层索引，不是每次都必须执行的全栈清单；只读关联取证可跨层，变更限于已证实的范围：
 
 1. 公网入口和 nginx TLS；
 2. Coder 服务与 Coder 账本；
@@ -38,7 +49,7 @@ description: 部署、巡检和排查 yancanmao/npu-private-cloud 管理的 Asce
 7. KubeRay、Ray 节点、Ray Job 和应用端口。
 
 页面、Coder 账本、Kubernetes 实际对象和硬件进程可能互相分叉。不要因为页面报错就直接
-重启底层组件。
+重启底层组件。第一处报错不是自动确认的根因；按报告规范保留竞争解释。
 
 ## 权威判据
 

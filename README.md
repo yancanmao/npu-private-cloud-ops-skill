@@ -1,10 +1,14 @@
 # NPU Private Cloud Operations Skill
 
-给学生和 AI 助手使用的 Ascend NPU 私有云运维 Skill。覆盖 Coder、Kubernetes、Volcano、
+给平台维护者和获授权 AI 助手使用的 Ascend NPU 私有云运维 Skill。覆盖 Coder、Kubernetes、Volcano、
 Longhorn、KubeRay、Ray Dashboard、Prometheus、Grafana、zot 和 nginx 网关。
 
 平台实现、安装脚本和验收测试位于：
 [`yancanmao/npu-private-cloud`](https://github.com/yancanmao/npu-private-cloud)。
+
+普通用户的组件百科、登录、工作区、SSH、面板和已发布应用部署使用该仓库中的
+[`coder-platform-user`](https://github.com/yancanmao/npu-private-cloud/tree/main/skills/coder-platform-user)。
+本 ops skill 保留管理员巡检、发布、恢复和策略维护；普通用户无需交出管理员凭据。
 
 ## 安装
 
@@ -46,6 +50,7 @@ bash scripts/collect-platform-snapshot.sh
 - `references/topology-and-sources.md`：组件拓扑、服务位置和权威配置。
 - `references/incident-response.md`：按症状定位故障。
 - `references/diagnostic-report.md`：问题定位报告、证据与因果分析、修复验收和短版汇报规范；默认直接在聊天输出。
+- `references/user-support-and-handoff.md`：用户支持、权限边界和管理员接手；避免把普通用户请求自动升级成平台变更。
 - `references/coder-and-ray.md`：Coder、KubeRay、Ray Dashboard 专项手册。
 - `references/change-and-recovery.md`：安全变更、回滚和清理。
 - `scripts/collect-platform-snapshot.sh`：只读证据采集脚本。

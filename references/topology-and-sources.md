@@ -4,13 +4,18 @@
 
 ```text
 浏览器
-  -> 公网高位端口
-  -> nginx TLS 网关
-  -> Coder / Grafana / Volcano / Longhorn / Prometheus / zot
-  -> Kubernetes API
-  -> Volcano 调度
-  -> Pod + Longhorn 卷 + Ascend 设备
+  -> 已核实的公网入口 -> nginx TLS 网关
+       ├─ Coder -> Terraform build -> Kubernetes API -> 工作区对象
+       │                                            ├─ Volcano 调度
+       │                                            ├─ Longhorn 卷挂载
+       │                                            └─ Pod + Ascend 设备
+       ├─ Grafana -> Prometheus -> 已采集的节点/容器/应用指标
+       ├─ Volcano / Longhorn 页面 -> 对应服务后端
+       └─ Prometheus / zot 的查询与镜像页面
 ```
+
+以上为逻辑依赖，不是每次网页请求都串行经过这些组件。认证、网关端口和只读边界以目标
+平台当前配置为准。用户侧入口发现及组件概念参见平台仓库 `skills/coder-platform-user`。
 
 Ray 工作区多一层：
 
