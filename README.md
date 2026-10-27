@@ -86,6 +86,13 @@ bash scripts/collect-platform-snapshot.sh
 - `references/change-and-recovery.md`：安全变更、回滚和清理。
 - `scripts/collect-platform-snapshot.sh`：只读证据采集脚本。
 
+## Skill 更新与交付
+
+用户 skill 与 ops 共用 [标准交付流程](https://github.com/yancanmao/npu-private-cloud/blob/main/docs/skill-delivery.md)，
+执行入口见 [本 skill 发布说明](references/skill-delivery.md)。全量单元测试、图与目录对账、全新共享安装、
+案例检索由统一脚本执行；真实回答与工具轨迹、README/图/客户端和发布 CI 分别验收。
+skip、未运行、失败不能算通过，离线通过不等于线上平台交付完成。
+
 ## 安全原则
 
 仓库不保存真实 IP、域名、主机名、账号、密码、令牌或私钥。删除数据、停止别人的工作区、

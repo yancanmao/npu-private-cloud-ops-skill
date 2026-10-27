@@ -104,3 +104,8 @@ bash ./scripts/10_tools.sh verify
 
 只有明确授权且具备临时资源时才运行 `./tests/run.sh --full` 或其他会创建资源的测试组。
 测试摘要显示零失败仍不够：检查输出中是否夹有 traceback、timeout、skip 或 warning。
+
+## 维护本 skill
+
+修改 skill、共享知识包或安装入口时，读 [标准交付流程](references/skill-delivery.md)。
+统一运行离线门禁，并独立记录真实 Agent 行为、可视化与发布状态；不能停在单元测试通过。
