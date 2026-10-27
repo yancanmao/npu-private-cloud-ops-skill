@@ -10,6 +10,17 @@ Longhorn、KubeRay、Ray Dashboard、Prometheus、Grafana、zot 和 nginx 网关
 [`coder-platform-user`](https://github.com/yancanmao/npu-private-cloud/tree/main/skills/coder-platform-user)。
 本 ops skill 保留管理员巡检、发布、恢复和策略维护；普通用户无需交出管理员凭据。
 
+## 模块架构
+
+![Private Cloud Ops 的四层模块架构](docs/diagrams/ops-skill-architecture.svg)
+
+入口按任务加载六个功能模块，模块共用排查知识库和现有运维工具；
+安全边界、问题报告与多平台验收贯穿全部模块。箭头表示依赖，不要求每次运行全套流程。
+
+案例正文只在 [平台知识库](https://github.com/yancanmao/npu-private-cloud/tree/main/docs/knowledge-base) 维护，
+本 skill 通过 `references/knowledge-base.md` 访问；
+[普通用户 skill 架构](https://github.com/yancanmao/npu-private-cloud#ai-助手与共享排查知识库) 采用同样的分层方式，操作权限不同。
+
 ## 安装
 
 ### Codex

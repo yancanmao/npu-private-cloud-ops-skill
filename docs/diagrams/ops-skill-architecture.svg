@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="660" viewBox="0 0 1120 660" role="img" aria-labelledby="title desc">
+<title id="title">Private Cloud Ops · 模块架构</title>
+<desc id="desc">帮助维护者诊断、发布和恢复平台；以声明式配置与现场证据为依据。入口层、功能模块层、共享支撑层和交付规范层。六个模块按需加载，共用分类案例库。</desc>
+<defs><style>
+text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans CJK SC','PingFang SC','Microsoft YaHei',sans-serif;fill:#203249}
+.title{font-size:26px;font-weight:700}.subtitle{font-size:15px;fill:#62748a}.layer{font-size:14px;font-weight:700;fill:#62748a}.heading{font-size:18px;font-weight:650}.body{font-size:15px;fill:#52667d}.small{font-size:13px;fill:#62748a}.white{fill:#fff}.mono{font-size:16px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;fill:#fff}
+</style><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="none" stroke="#99abc0" stroke-width="1.5"/></marker></defs>
+<rect width="1120" height="660" rx="16" fill="#f7f9fc"/>
+<text x="30" y="40" class="title">Private Cloud Ops · 模块架构</text>
+<text x="30" y="65" class="subtitle">帮助维护者诊断、发布和恢复平台；以声明式配置与现场证据为依据</text>
+<text x="30" y="119" class="layer">01 入口</text>
+<text x="30" y="203" class="layer">02 功能模块</text>
+<text x="30" y="417" class="layer">03 共享支撑</text>
+<text x="30" y="555" class="layer">04 交付规范</text>
+<rect x="165" y="90" width="925" height="62" rx="10" fill="#254c77"/>
+<text x="187" y="116" class="mono">npu-private-cloud-ops / SKILL.md</text>
+<text x="187" y="139" class="white small">统一入口：选择巡检、部署、变更或恢复；核对平台、身份、对象与授权</text>
+<path d="M627 154V175" stroke="#99abc0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M627 353V382" stroke="#99abc0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M627 498V520" stroke="#99abc0" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="165" y="181" width="299" height="76" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<rect x="165" y="181" width="4" height="76" rx="2" fill="#4d83b9"/>
+<text x="182" y="207" class="heading">平台拓扑</text>
+<text x="182" y="230" class="body">组件依赖 · 权威配置 · 信息来源</text>
+<text x="182" y="247" class="small">topology-and-sources.md</text>
+<rect x="478" y="181" width="299" height="76" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<rect x="478" y="181" width="4" height="76" rx="2" fill="#4d83b9"/>
+<text x="495" y="207" class="heading">故障诊断</text>
+<text x="495" y="230" class="body">按失败路径取证 · 比较候选原因</text>
+<text x="495" y="247" class="small">incident-response.md</text>
+<rect x="791" y="181" width="299" height="76" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<rect x="791" y="181" width="4" height="76" rx="2" fill="#4d83b9"/>
+<text x="808" y="207" class="heading">部署与发布</text>
+<text x="808" y="230" class="body">编号脚本 · 升级 · 多平台同步</text>
+<text x="808" y="247" class="small">deployment.md</text>
+<rect x="165" y="268" width="299" height="76" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<rect x="165" y="268" width="4" height="76" rx="2" fill="#4d83b9"/>
+<text x="182" y="294" class="heading">变更与恢复</text>
+<text x="182" y="317" class="body">影响范围 · 回滚 · 存储与清理</text>
+<text x="182" y="334" class="small">change-and-recovery.md</text>
+<rect x="478" y="268" width="299" height="76" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<rect x="478" y="268" width="4" height="76" rx="2" fill="#4d83b9"/>
+<text x="495" y="294" class="heading">平台专项</text>
+<text x="495" y="317" class="body">Coder / Ray · SWE-bench Pro</text>
+<text x="495" y="334" class="small">coder-and-ray.md · swe-bench-pro.md</text>
+<rect x="791" y="268" width="299" height="76" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<rect x="791" y="268" width="4" height="76" rx="2" fill="#4d83b9"/>
+<text x="808" y="294" class="heading">用户支持与接手</text>
+<text x="808" y="317" class="body">保留用户目标 · 划清操作权限</text>
+<text x="808" y="334" class="small">user-support-and-handoff.md</text>
+<rect x="165" y="389" width="455" height="108" rx="10" fill="#edf4fb" stroke="#d1e0ef"/>
+<text x="183" y="417" class="heading">共用排查知识库</text>
+<text x="183" y="443" class="body">症状 / 组件索引 → 只读检索 → 代表案例</text>
+<text x="183" y="466" class="body">由平台仓库维护；案例原因与验收状态分开</text>
+<text x="183" y="486" class="small">docs/knowledge-base · 两个 skill 共用一份</text>
+<rect x="636" y="389" width="454" height="108" rx="10" fill="#eef5f3" stroke="#d3e3dd"/>
+<text x="654" y="417" class="heading">现场信息与操作工具</text>
+<text x="654" y="443" class="body">只读现场采集 · CLI / API · 浏览器</text>
+<text x="654" y="466" class="body">平台配置 / 编号脚本 / 测试：npu-private-cloud</text>
+<text x="654" y="486" class="small">工具由运行环境提供；权限由当前身份和授权决定</text>
+<rect x="165" y="527" width="925" height="83" rx="10" fill="#fff" stroke="#d9e2ec"/>
+<text x="183" y="554" class="heading">安全与授权边界  /  多平台验收  /  六段问题报告</text>
+<text x="183" y="579" class="body">覆盖 Coder · Longhorn · Grafana · 模板 · 工作区用户路径</text>
+<text x="183" y="600" class="small">diagnostic-report.md · storage-and-acceptance.md；保留未确认原因与未验收项。</text>
+<text x="165" y="638" class="small">架构关系：入口按需加载模块；模块引用共享支撑，并遵循统一交付规范。</text>
+</svg>
