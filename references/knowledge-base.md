@@ -1,8 +1,16 @@
 # 共享案例与排查索引
 
-故障诊断先读本 skill 的 `references/knowledge-base/index.md`，检索症状/错误/组件，再检查
-候选案例的证据等级、原因状态与恢复状态。该目录是平台安装器建立的共享链接，不在本仓库
-复制正文；用户 skill 与 ops 读取同一份内容。
+**在 GitHub 上阅读：直接打开 [案例库 index.md](https://github.com/yancanmao/npu-private-cloud/blob/main/docs/knowledge-base/index.md) 或 [案例库目录](https://github.com/yancanmao/npu-private-cloud/tree/main/docs/knowledge-base)。**
+
+当前这个 `references/knowledge-base.md` 是说明文件，不是文件夹。
+案例正文已提交在平台仓库的 `docs/knowledge-base/`，不在 ops skill 仓库中。
+
+**本地安装后使用：**安装器才会创建 `references/knowledge-base/` 目录链接；
+其中的 `index.md` 和 `tools/search.py` 来自同一个共享知识包。只克隆 ops skill 不会生成这个目录，
+GitHub 也不会显示本地生成的链接。安装步骤见 [README](../README.md#安装共享案例库排查功能必需)。
+
+故障诊断先检索症状/错误/组件，再检查候选案例的证据等级、原因状态与恢复状态。
+用户 skill 与 ops 读取同一份正文。
 
 ```bash
 python3 "<SKILL_DIR>/references/knowledge-base/tools/search.py" 'Connecting' --component Longhorn --audience ops
