@@ -30,6 +30,8 @@ description: 面向平台维护者，部署、巡检和排查 yancanmao/npu-priv
 
 需要平台拓扑和权威信息位置时读 [references/topology-and-sources.md](references/topology-and-sources.md)。
 需要按症状定位时读 [references/incident-response.md](references/incident-response.md)。
+历史事故先从 [共享案例与索引](references/knowledge-base.md) 检索，用户与 ops 共用平台仓库
+的同一知识包。比较适用条件再查当前现场；历史已确认原因不等于当前根因，恢复与验收状态独立记录。
 涉及多集群同步、闲置回收或工作区指标接入时，读 [references/deployment.md](references/deployment.md) 的专项验收；一个集群通过不能代替其他集群发布。
 涉及 Coder、RayCluster 或 Ray Dashboard 时读 [references/coder-and-ray.md](references/coder-and-ray.md)。
 涉及 SWE-bench Pro 安装、其他人复用或新 CPU 执行工作区时，先读 [references/swe-bench-pro.md](references/swe-bench-pro.md)，区分模型服务、旧工作区恢复与新用户部署验收。

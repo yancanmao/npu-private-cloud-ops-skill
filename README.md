@@ -51,6 +51,7 @@ bash scripts/collect-platform-snapshot.sh
 - `references/incident-response.md`：按症状定位故障。
 - `references/diagnostic-report.md`：问题定位报告、证据与因果分析、修复验收和短版汇报规范；默认直接在聊天输出。
 - `references/user-support-and-handoff.md`：用户支持、权限边界和管理员接手；避免把普通用户请求自动升级成平台变更。
+- `references/knowledge-base.md`：共享分类索引、代表案例与本地只读检索；正文仅在平台仓库维护。
 - `references/coder-and-ray.md`：Coder、KubeRay、Ray Dashboard 专项手册。
 - `references/change-and-recovery.md`：安全变更、回滚和清理。
 - `scripts/collect-platform-snapshot.sh`：只读证据采集脚本。
