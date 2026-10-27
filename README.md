@@ -43,6 +43,25 @@ git clone https://github.com/yancanmao/npu-private-cloud-ops-skill.git \
 使用 npu-private-cloud-ops 检查为什么 Coder 工作区一直 Connecting。
 ```
 
+### 安装共享案例库（排查功能必需）
+
+上面的克隆只安装 skill 本体，**不会自动安装共享案例库**。还需要有权访问平台仓库的本地
+checkout；已克隆则复用，不重复创建。平台仓库访问权限与集群管理员权限是两回事，
+不要向用户索取管理员凭据。无法取得知识包时应明确说明未安装，不能宣称已完成案例检索。
+
+在平台仓库根目录执行，将 `<OPS_SKILL_DIR>` 替换为上面实际克隆的路径：
+
+```bash
+python3 scripts/install_knowledge_base.py --skill-dir "<OPS_SKILL_DIR>"
+python3 scripts/install_knowledge_base.py --skill-dir "<OPS_SKILL_DIR>" --apply
+python3 "<OPS_SKILL_DIR>/references/knowledge-base/tools/search.py" --validate
+python3 "<OPS_SKILL_DIR>/references/knowledge-base/tools/search.py" 'Connecting' --audience ops
+```
+
+同时安装用户 skill 时，对同一次安装追加 `--skill-dir "<USER_SKILL_DIR>"`，两者链接到同一个
+经过 SHA256 校验的知识包。更新知识包后也重跑安装器；不要携带另一台机器的绝对链接。
+目录对应关系与可重复检查见 [架构对账](https://github.com/yancanmao/npu-private-cloud/blob/main/docs/skill-architecture.md)。
+
 ## 人工使用
 
 遇到故障先在控制节点运行只读现场采集：
