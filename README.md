@@ -83,6 +83,7 @@ bash scripts/collect-platform-snapshot.sh
 - `references/user-support-and-handoff.md`：用户支持、权限边界和管理员接手；避免把普通用户请求自动升级成平台变更。
 - `references/knowledge-base.md`：共享分类索引、代表案例与本地只读检索；正文仅在平台仓库维护。
 - `references/coder-and-ray.md`：Coder、KubeRay、Ray Dashboard 专项手册。
+- `references/swe-bench-pro.md`：代用户发现 Coder 执行环境、连接模型、运行已有安装入口并验收；包含 DinD 架构与图示入口，不让使用者手工拼平台前置条件。
 - `references/change-and-recovery.md`：安全变更、回滚和清理。
 - `scripts/collect-platform-snapshot.sh`：只读证据采集脚本。
 

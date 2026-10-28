@@ -34,7 +34,7 @@ description: 面向平台维护者，部署、巡检和排查 yancanmao/npu-priv
 的同一知识包。比较适用条件再查当前现场；历史已确认原因不等于当前根因，恢复与验收状态独立记录。
 涉及多集群同步、闲置回收或工作区指标接入时，读 [references/deployment.md](references/deployment.md) 的专项验收；一个集群通过不能代替其他集群发布。
 涉及 Coder、RayCluster 或 Ray Dashboard 时读 [references/coder-and-ray.md](references/coder-and-ray.md)。
-涉及 SWE-bench Pro 安装、其他人复用或新 CPU 执行工作区时，先读 [references/swe-bench-pro.md](references/swe-bench-pro.md)，区分模型服务、旧工作区恢复与新用户部署验收。
+涉及 SWE-bench Pro 安装、其他人复用或新 CPU 执行工作区时，先读 [references/swe-bench-pro.md](references/swe-bench-pro.md)。按其中“代用户完成”的流程发现已有能力、补齐配置和验收；平台前置条件由 ops 处理，不让使用者排查 Docker、镜像或 socket。区分模型服务、旧工作区恢复与新用户部署验收。
 涉及变更、停止和清理时读 [references/change-and-recovery.md](references/change-and-recovery.md)。
 
 ## 按实际失败路径诊断
