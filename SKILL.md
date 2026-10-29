@@ -27,7 +27,7 @@ description: 面向平台维护者，部署、巡检和排查 yancanmao/npu-priv
 
 ## 选择操作模式
 
-1. **只读巡检或故障定位**：可直接执行。先读已有报告，核对平台、当前身份、对象和时间，
+1. **只读巡检或故障定位**：可直接执行。连接已有工作区必须使用 `coder ssh --disable-autostart`，避免查询自动启动已停止资源。先读已有报告，核对平台、当前身份、对象和时间，
    从相关失败路径取证；跨层或原因不明时使用
    [`scripts/collect-platform-snapshot.sh`](scripts/collect-platform-snapshot.sh) 保存现场。
    它属于本 Skill，不在平台实现仓库 `scripts/`；不能为收集现场向普通用户索要管理员凭据。
@@ -45,6 +45,7 @@ description: 面向平台维护者，部署、巡检和排查 yancanmao/npu-priv
 涉及 Coder、RayCluster 或 Ray Dashboard 时读 [references/coder-and-ray.md](references/coder-and-ray.md)。
 涉及 SWE-bench Pro 安装、其他人复用或新 CPU 执行工作区时，先读 [references/swe-bench-pro.md](references/swe-bench-pro.md)。按其中“代用户完成”的流程发现已有能力、补齐配置和验收；平台前置条件由 ops 处理，不让使用者排查 Docker、镜像或 socket。区分模型服务、旧工作区恢复与新用户部署验收。
 涉及变更、停止和清理时读 [references/change-and-recovery.md](references/change-and-recovery.md)。
+涉及模型/上传目录 NFS 时，先读[共享存储部署与验收](references/shared-nfs.md)。不能把服务端已有导出当作客户端和工作区已接通。
 
 ## 按实际失败路径诊断
 
