@@ -2,6 +2,17 @@
 
 用于用户要给其他人复用、安装或恢复 SWE-bench Pro 的情况。先明确：模型服务只提供模型 API；CPU 执行工作区负责官方 Agent 与 Docker 任务容器。Ray 模型工作区有地址，不等于任务执行环境已具备。
 
+## 模板选择：学生执行与运维部署分开
+
+- `swe-bench-pro-cpu`：学生/研究人员的 CPU 执行工作区，运行 Agent、独立 Docker 沙箱并保存补丁；需连接已获授权的模型 API，不申请 NPU。
+- `swe-model`：运维模型恢复模板。当前配置为 CPU head + 一个 2 NPU worker；创建后仍需部署脚本启动模型。现有版本绑定运维身份、节点、镜像与容量检查，不作为学生通用入口。
+- `swe-model-probe`：运维 CPU 检查模板，只读检查环境、身份与磁盘容量；不占 NPU、不运行模型、不执行 Agent、不清理磁盘。删除卷前检查是否仍被模型使用。
+
+模板名称按功能命名，不含创建者个人标识。创建个人工作区前确认个人标识，使用 `<个人标识>-<用途>-<序号>`；已确认的不重复问。
+详细步骤与关系图只维护在[平台模板说明](https://github.com/yancanmao/npu-private-cloud/blob/main/docs/swe-bench-pro.md#coder-模板选择与使用说明)。
+模板前端介绍由平台 `scripts/swe_template_metadata.py` 统一维护，发布入口同步复用。两端逐一预览、apply、读回与浏览器验收；缺失模板记为 ABSENT，不把节点绑定的恢复配置直接复制到另一端。
+不要仅凭模板可见宣称权限可用，也不要把 Agent 的 Submitted 当作官方评分通过。
+
 ## 代用户完成：只让用户决定目标，不让用户拼前置条件
 
 用户说“帮我在 Coder 跑 SWE-bench Pro”时，交付可进入的本人工作区、一次明确任务的实际结果和结果位置；
